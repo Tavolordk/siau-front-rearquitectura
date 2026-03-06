@@ -1,66 +1,58 @@
-SIAU Frontend Re-Arquitectura
-Descripción General
+# SIAU Frontend Re-Arquitectura
 
-Este repositorio contiene la rearquitrectura del frontend del sistema SIAU (Sistema Integral de Administración de Usuarios).
+## Descripción General
 
-El objetivo de este proyecto es reconstruir el frontend existente de SIAU utilizando una arquitectura limpia, escalable y mantenible, basada en buenas prácticas modernas de Angular y principios de diseño orientado a dominios.
+Este repositorio contiene la **rearquitrectura del frontend del sistema SIAU (Sistema Integral de Administración de Usuarios)**.
 
-En lugar de modificar progresivamente el sistema legado, este repositorio establece una nueva base arquitectónica, donde las funcionalidades se implementarán gradualmente respetando límites claros entre capas.
+El objetivo de este proyecto es reconstruir el frontend existente de SIAU utilizando una **arquitectura limpia, escalable y mantenible**, basada en buenas prácticas modernas de Angular y principios de **Domain-Driven Design (DDD)**.
 
-Los objetivos principales de este proyecto son:
+En lugar de modificar progresivamente el sistema legado, este repositorio establece una **nueva base arquitectónica**, donde las funcionalidades se implementarán gradualmente respetando límites claros entre capas.
 
-Mantenibilidad a largo plazo
+### Objetivos principales
 
-Separación clara de responsabilidades
+- Mantenibilidad a largo plazo
+- Separación clara de responsabilidades
+- Modularidad orientada a dominios
+- Estándares de desarrollo consistentes
+- Escalabilidad para futuras funcionalidades
 
-Modularidad orientada a dominios
+---
 
-Estándares de desarrollo consistentes
+# Tecnologías Utilizadas
 
-Escalabilidad para futuras funcionalidades
+- Angular (última versión estable)
+- TypeScript
+- SCSS
+- Angular Router
+- Node.js / NPM
 
-Tecnologías Utilizadas
+La aplicación utiliza **arquitectura basada en standalone components** y herramientas modernas del ecosistema Angular.
 
-Angular (última versión estable)
+---
 
-TypeScript
+# Principios de Arquitectura
 
-SCSS
+El sistema sigue los principios de **Clean Architecture** y **Domain-Driven Design (DDD)**.
 
-Angular Router
+## Reglas fundamentales
 
-Node.js / NPM
-
-La aplicación utiliza arquitectura basada en standalone components y herramientas modernas del ecosistema Angular.
-
-Principios de Arquitectura
-
-El sistema sigue los principios de Clean Architecture y Domain-Driven Design (DDD).
-
-Reglas fundamentales del proyecto:
-
-Separación por dominios, no por tipo técnico.
-
-La capa de presentación no debe acceder directamente a infraestructura.
-
-La lógica de negocio no debe existir dentro de los componentes.
-
-La capa de dominio debe ser independiente del framework.
-
-El código compartido no debe contener reglas de negocio.
-
-Cada dominio debe ser autocontenible.
+- Separación por **dominios**, no por tipo técnico.
+- La capa de **presentación** no debe acceder directamente a **infraestructura**.
+- La **lógica de negocio** no debe existir dentro de los componentes.
+- La capa de **dominio debe ser independiente del framework**.
+- El código **shared** no debe contener reglas de negocio.
+- Cada dominio debe ser **autocontenible**.
 
 Esta estructura permite que cada dominio evolucione de forma independiente sin generar acoplamiento innecesario entre módulos.
 
-Estructura del Proyecto
+---
+
+# Estructura del Proyecto
 
 El código principal de la aplicación se encuentra en:
-
 src/app
 
 Estructura general:
-
 app
 ├ core
 ├ shared
@@ -68,77 +60,75 @@ app
 ├ domains
 ├ app.config.ts
 └ app.routes.ts
-Capa Core
+
+---
+
+# Capa Core
+
 core/
 
-Contiene funcionalidades transversales utilizadas por toda la aplicación.
+Contiene funcionalidades **transversales** utilizadas por toda la aplicación.
 
-Ejemplos:
+### Ejemplos
 
-Autenticación
+- Autenticación
+- Interceptores HTTP
+- Configuración global
+- Guards
+- Proveedores de aplicación
+- Utilidades generales
 
-Interceptores HTTP
+La capa **core no debe contener lógica de negocio específica de dominios**.
 
-Configuración global
+---
 
-Guards
+# Capa Shared
 
-Proveedores de aplicación
-
-Utilidades generales
-
-La capa core no debe contener lógica de negocio específica de dominios.
-
-Capa Shared
 shared/
 
-Contiene elementos reutilizables sin lógica de negocio.
+Contiene elementos **reutilizables** sin lógica de negocio.
 
-Ejemplos:
+### Ejemplos
 
-Componentes UI reutilizables
+- Componentes UI reutilizables
+- Directivas
+- Pipes
+- Funciones utilitarias
+- Modelos comunes
+- Elementos del sistema de diseño
 
-Directivas
+Los elementos dentro de `shared` deben ser **agnósticos al dominio**.
 
-Pipes
+---
 
-Funciones utilitarias
+# Capa Shell
 
-Modelos comunes
-
-Elementos del sistema de diseño
-
-Los elementos dentro de shared deben ser agnósticos al dominio.
-
-Capa Shell
 shell/
 
-Responsable de la composición general de la aplicación.
+Responsable de la **composición general de la aplicación**.
 
 Incluye:
 
-Layout principal
-
-Navegación global
-
-Configuración de rutas principales
-
-Páginas base del sistema
+- Layout principal
+- Navegación global
+- Configuración de rutas principales
+- Páginas base del sistema
 
 Ejemplos:
-
 shell/layouts
 shell/navigation
 shell.routes.ts
-Dominios
+
+---
+
+# Dominios
 
 Toda la funcionalidad de negocio se encuentra dentro de:
-
 domains/
 
-Cada dominio representa un bounded context dentro del sistema.
+Cada dominio representa un **bounded context** dentro del sistema.
 
-Ejemplo de dominios actuales:
+### Dominios actuales
 
 auth
 catalogos
@@ -153,173 +143,192 @@ notificaciones
 
 Cada dominio sigue la misma arquitectura interna.
 
-Estructura Interna de un Dominio
+---
+
+# Estructura Interna de un Dominio
+
 nombre-dominio
 ├ application
 ├ domain
 ├ infrastructure
 └ presentation
-application
 
-Contiene la lógica de orquestación de casos de uso.
+## application
 
-Ejemplos:
-
-Casos de uso
-
-Facades
-
-Manejo de estado
-
-Mapeadores
-
-Validadores
-
-domain
-
-Contiene la lógica de negocio pura.
+Contiene la lógica de **orquestación de casos de uso**.
 
 Ejemplos:
 
-Entidades
+- Casos de uso
+- Facades
+- Manejo de estado
+- Mapeadores
+- Validadores
 
-Value Objects
+---
 
-Reglas de negocio
+## domain
 
-Interfaces de repositorios
-
-La capa de dominio no debe depender de Angular ni de frameworks externos.
-
-infrastructure
-
-Contiene integraciones externas.
+Contiene la **lógica de negocio pura**.
 
 Ejemplos:
 
-Clientes HTTP
+- Entidades
+- Value Objects
+- Reglas de negocio
+- Interfaces de repositorios
 
-Adaptadores de API
+La capa de dominio **no debe depender de Angular ni de frameworks externos**.
 
-DTOs
+---
 
-Implementaciones de repositorios
+## infrastructure
 
-presentation
+Contiene **integraciones externas**.
+
+Ejemplos:
+
+- Clientes HTTP
+- Adaptadores de API
+- DTOs
+- Implementaciones de repositorios
+
+---
+
+## presentation
 
 Contiene los elementos de interfaz construidos con Angular.
 
 Ejemplos:
 
-Pages
+- Pages
+- Componentes
+- Formularios
+- Diálogos
+- View Models
 
-Componentes
+La capa de presentación debe comunicarse únicamente con **facades de la capa application**, nunca directamente con infraestructura.
 
-Formularios
+---
 
-Diálogos
+# Estrategia de Rutas
 
-View Models
+El sistema de rutas está dividido en tres niveles.
 
-La capa de presentación debe comunicarse únicamente con facades de la capa application, nunca directamente con infraestructura.
+## 1. Rutas de aplicación
 
-Estrategia de Rutas
-
-El sistema de rutas está dividido en tres niveles:
-
-1. Rutas de aplicación
-   app.routes.ts
+app.routes.ts
 
 Punto de entrada principal de la aplicación.
 
-2. Rutas del shell
-   shell.routes.ts
+---
+
+## 2. Rutas del Shell
+
+shell.routes.ts
 
 Define navegación principal y layouts globales.
 
-3. Rutas por dominio
+---
 
-Cada dominio define sus propias rutas:
+## 3. Rutas por dominio
 
+Cada dominio define sus propias rutas.
+
+Ejemplo:
 auth.routes.ts
 registro.routes.ts
 solicitudes.routes.ts
 
-Esto permite lazy loading y aislamiento entre dominios.
+Esto permite **lazy loading y aislamiento entre dominios**.
 
-Flujo de Desarrollo
+---
+
+# Flujo de Desarrollo
 
 El desarrollo de funcionalidades debe seguir el siguiente orden:
 
-Definir el caso de uso del dominio
+1. Definir el **caso de uso del dominio**
+2. Implementar la **lógica de aplicación**
+3. Definir **entidades y reglas del dominio**
+4. Implementar **adaptadores de infraestructura**
+5. Construir **componentes de presentación**
 
-Implementar la lógica de aplicación
+Los componentes deben crearse **únicamente después de definir la lógica de negocio**.
 
-Definir entidades y reglas del dominio
+---
 
-Implementar adaptadores de infraestructura
+# Estándares de Código
 
-Construir componentes de presentación
+## Convención de nombres de archivos
 
-Los componentes deben crearse únicamente después de definir la lógica de negocio.
-
-Estándares de Código
-Convención de nombres de archivos
 kebab-case
 
 Ejemplo:
-
 registro-page.component.ts
 crear-solicitud.use-case.ts
 usuario.repository.ts
-Convención de tipos y clases
+
+---
+
+## Convención de tipos y clases
+
 PascalCase
-Convención de variables
+
+---
+
+## Convención de variables
+
 camelCase
-Estrategia de Imports
+
+---
+
+# Estrategia de Imports
 
 Evitar imports relativos profundos.
 
 Preferir aliases cuando estén configurados:
-
 @core
 @shared
 @domains
 @shell
-Reglas para Componentes
+
+---
+
+# Reglas para Componentes
 
 Los componentes Angular deben cumplir las siguientes reglas:
 
-Contener únicamente lógica de presentación
+- Contener únicamente lógica de **presentación**
+- No incluir **reglas de negocio**
+- No realizar **llamadas HTTP**
+- Utilizar **facades o servicios de estado** para interactuar con la aplicación
 
-No incluir reglas de negocio
+---
 
-No realizar llamadas HTTP
+# Propósito del Repositorio
 
-Utilizar facades o servicios de estado para interactuar con la aplicación
-
-Propósito del Repositorio
-
-Este repositorio se ha inicializado con la estructura arquitectónica antes de implementar funcionalidades.
+Este repositorio se ha inicializado con la **estructura arquitectónica antes de implementar funcionalidades**.
 
 Los componentes y la lógica del sistema se introducirán progresivamente conforme se definan los casos de uso.
 
 Este enfoque garantiza que el código nuevo respete los límites arquitectónicos desde el inicio.
 
-Contribuciones
+---
+
+# Contribuciones
 
 Antes de implementar una nueva funcionalidad:
 
-Identificar el dominio correspondiente
-
-Definir el caso de uso
-
-Implementar respetando la arquitectura existente
-
-Evitar dependencias entre dominios
+1. Identificar el **dominio correspondiente**
+2. Definir el **caso de uso**
+3. Implementar respetando la arquitectura existente
+4. Evitar dependencias entre dominios
 
 Todo nuevo código debe respetar la estructura definida.
 
-Licencia
+---
 
-Este proyecto se mantiene para fines de desarrollo interno.
+# Licencia
+
+Este proyecto se mantiene para **fines de desarrollo interno**.
